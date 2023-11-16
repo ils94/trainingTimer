@@ -40,6 +40,21 @@ function startCountdown() {
   }
 }
 
+// Add an event listener to the laps input field to allow only whole numbers
+document.getElementById("inputTime1").addEventListener("input", function(event) {
+  this.value = this.value.replace(/[^\d]/g, ''); // Allow only digits
+});
+
+// Add an event listener to the laps input field to allow only whole numbers
+document.getElementById("inputTime2").addEventListener("input", function(event) {
+  this.value = this.value.replace(/[^\d]/g, ''); // Allow only digits
+});
+
+// Add an event listener to the laps input field to allow only whole numbers
+document.getElementById("inputLaps").addEventListener("input", function(event) {
+  this.value = this.value.replace(/[^\d]/g, ''); // Allow only digits
+});
+
 function updateTimer() {
   remainingTime--;
   
