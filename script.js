@@ -15,6 +15,9 @@ const startAudio = new Audio('sound/start.mp3');
 const restAudio = new Audio('sound/rest.mp3');
 
 function startCountdown() {
+	
+  const startButton = document.querySelector('button[onclick="startCountdown()"]');
+	
   const time1 = parseInt(document.getElementById("inputTime1").value);
   const time2 = parseInt(document.getElementById("inputTime2").value);
   laps = parseInt(document.getElementById("inputLaps").value);
@@ -29,6 +32,8 @@ function startCountdown() {
     countdownInterval = setInterval(updateTimer, 1000);
 	
 	startAudio.play()
+	
+	startButton.disabled = true; // Disable the Start button
 	
   } else {
     alert("Please enter valid numbers for times and laps.");
@@ -59,6 +64,9 @@ function updateTimer() {
 }
 
 function switchCooldown() {
+	
+  const startButton = document.querySelector('button[onclick="startCountdown()"]');
+	
   if (currentCooldown === 1) {
 	  
     remainingTime = totalTime2;
@@ -79,6 +87,8 @@ function switchCooldown() {
       clearInterval(countdownInterval);
       remainingTime = 0;
 	  finishAudio.play()
+	  
+      startButton.disabled = false; // Enable the Start button when laps end
     }
   }
 
@@ -99,6 +109,9 @@ function updateCountdownDisplay() {
 }
 
 function stopCountdown() {
+	
+  const startButton = document.querySelector('button[onclick="startCountdown()"]');
+	
   clearInterval(countdownInterval);
   totalTime1 = 0;
   totalTime2 = 0;
@@ -106,6 +119,8 @@ function stopCountdown() {
   laps = 0;
   currentCooldown = 1;
   document.querySelector('.countdown').textContent = '0:00:00';
+  
+  startButton.disabled = false
 }
 
 // Function to stop playing audio
