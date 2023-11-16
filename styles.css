@@ -1,0 +1,40 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.countdown {
+  font-size: 100px; /* Adjust the font size for the countdown */
+  margin-bottom: 20px; /* Increased margin for better separation */
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+input[type="number"] {
+  padding: 5px;
+  font-size: 16px;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px; /* Adjust the gap between buttons */
+}
+
+button {
+  padding: 8px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
