@@ -1,3 +1,3 @@
-# Training Timer
+# Workout Timer
 
-Simple Timer to use while doing workout
+Simple Timer to use while doing workouts.
