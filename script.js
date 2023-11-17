@@ -8,26 +8,28 @@ let currentCooldown = 1;
 const audio = new Audio(); // Single audio object
 
 function startCountdown() {
-	
-	playAudio(audio, "sound/get_ready.mp3")
-	
-	const startButton = document.querySelector('button[onclick="startCountdown()"]');
-	
-	const stopButton = document.querySelector('button[onclick="stopCountdown()"]');
-	
-	startButton.disabled = true; // Disable the Start button
-	
-	stopButton.disabled = true
 
 	const time1 = parseInt(document.getElementById("inputTime1").value);
 	const time2 = parseInt(document.getElementById("inputTime2").value);
 	rounds = parseInt(document.getElementById("inputRounds").value);
 
-	document.querySelector('.cueworkout').textContent = 'Starting in 5 seconds!';
-	
-	document.querySelector('.cuerounds').textContent = 'Get Ready!';
-
 	if (!isNaN(time1) && !isNaN(time2) && !isNaN(rounds)) {
+
+		playAudio(audio, "sound/get_ready.mp3")
+
+		const startButton = document.querySelector('button[onclick="startCountdown()"]');
+
+		const stopButton = document.querySelector('button[onclick="stopCountdown()"]');
+
+		startButton.disabled = true; // Disable the Start button
+
+		stopButton.disabled = true
+
+		document.querySelector('.cueworkout').textContent = 'Starting in 5 seconds!';
+
+		document.querySelector('.cuerounds').textContent = 'Get Ready!';
+
+
 		setTimeout(() => {
 			totalTime1 = time1;
 			totalTime2 = time2;
@@ -68,12 +70,12 @@ function updateTimer() {
 	}
 
 	if (remainingTime <= 5 && remainingTime > 0) {
-		
+
 		if (!audio.paused) {
 			audio.pause();
 			audio.currentTime = 0;
 		}
-		
+
 		playAudio(audio, "sound/count.mp3")
 	}
 
@@ -107,7 +109,7 @@ function switchCooldown() {
 
 			clearInterval(countdownInterval);
 			remainingTime = 0;
-			
+
 			playAudio(audio, "sound/finish.mp3")
 
 			startButton.disabled = false; // Enable the Start button when rounds end
@@ -140,7 +142,7 @@ function updateCountdownDisplay() {
 	document.querySelector('.countdown').textContent = formattedTime;
 
 	if (remainingTime === 0 && audio.paused) {
-		
+
 		playAudio(audio, "sound/beep.mp3")
 	}
 }
@@ -158,18 +160,18 @@ function stopCountdown() {
 	document.querySelector('.countdown').textContent = '0:00:00';
 	document.querySelector('.cueworkout').textContent = 'Press START'
 	document.querySelector('.cuerounds').textContent = 'Press START'
-	
+
 	stopAudio(audio)
 
 	startButton.disabled = false
 }
 
 function playAudio(audioElement, audioFilePath) {
-    audioElement.src = audioFilePath;
-    audioElement.play();
+	audioElement.src = audioFilePath;
+	audioElement.play();
 }
 
 function stopAudio(audioElement) {
-    audioElement.pause();
-    audioElement.currentTime = 0;
+	audioElement.pause();
+	audioElement.currentTime = 0;
 }
