@@ -16,6 +16,12 @@ const restAudio = new Audio('sound/rest.mp3');
 
 function startCountdown() {
 	const startButton = document.querySelector('button[onclick="startCountdown()"]');
+	
+	const stopButton = document.querySelector('button[onclick="stopCountdown()"]');
+	
+	startButton.disabled = true; // Disable the Start button
+	
+	stopButton.disabled = true
 
 	const time1 = parseInt(document.getElementById("inputTime1").value);
 	const time2 = parseInt(document.getElementById("inputTime2").value);
@@ -30,10 +36,9 @@ function startCountdown() {
 			remainingTime = totalTime1;
 			currentCooldown = 1;
 			updateCountdownDisplay();
-
 			countdownInterval = setInterval(updateTimer, 1000);
 			startAudio.play();
-			startButton.disabled = true; // Disable the Start button
+			stopButton.disabled = false
 			document.querySelector('.cueworkout').textContent = 'Workout!';
 			document.querySelector('.cuerounds').textContent = 'Rounds Remaining: ' + rounds;
 		}, 5000); // 5000 milliseconds = 5 seconds
