@@ -5,9 +5,12 @@ let remainingTime = 0;
 let rounds = 0;
 let currentCooldown = 1;
 
-let audio = new Audio(); // Single audio object
+const audio = new Audio(); // Single audio object
 
 function startCountdown() {
+	
+	playAudio(audio, "sound/beep.mp3")
+	
 	const startButton = document.querySelector('button[onclick="startCountdown()"]');
 	
 	const stopButton = document.querySelector('button[onclick="stopCountdown()"]');
