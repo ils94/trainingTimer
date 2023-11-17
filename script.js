@@ -5,14 +5,7 @@ let remainingTime = 0;
 let rounds = 0;
 let currentCooldown = 1;
 
-// Preloading audio files
-const countAudio = new Audio('sound/count.mp3');
-const tenSeconds = new Audio('sound/10_seconds.mp3');
-const beepAudio = new Audio('sound/beep.mp3');
-const finishAudio = new Audio('sound/finish.mp3');
-
-const startAudio = new Audio('sound/start.mp3');
-const restAudio = new Audio('sound/rest.mp3');
+let audio = new Audio(); // Single audio object
 
 function startCountdown() {
 	const startButton = document.querySelector('button[onclick="startCountdown()"]');
@@ -37,7 +30,7 @@ function startCountdown() {
 			currentCooldown = 1;
 			updateCountdownDisplay();
 			countdownInterval = setInterval(updateTimer, 1000);
-			startAudio.play();
+			playAudio(audio, "sound/start.mp3")
 			stopButton.disabled = false
 			document.querySelector('.cueworkout').textContent = 'Workout!';
 			document.querySelector('.cuerounds').textContent = 'Rounds Remaining: ' + rounds;
@@ -66,16 +59,17 @@ function updateTimer() {
 	remainingTime--;
 
 	if (remainingTime === 10) {
-
-		tenSeconds.play();
+		playAudio(audio, "sound/10_seconds.mp3")
 	}
 
 	if (remainingTime <= 5 && remainingTime > 0) {
-		if (!countAudio.paused) {
-			countAudio.pause();
-			countAudio.currentTime = 0;
+		
+		if (!audio.paused) {
+			audio.pause();
+			audio.currentTime = 0;
 		}
-		countAudio.play();
+		
+		playAudio(audio, "sound/count.mp3")
 	}
 
 	if (remainingTime >= 0) {
@@ -96,7 +90,7 @@ function switchCooldown() {
 			remainingTime = totalTime2;
 			currentCooldown = 2;
 
-			restAudio.play()
+			playAudio(audio, "sound/rest.mp3")
 
 			document.querySelector('.cueworkout').textContent = 'Rest!';
 
@@ -108,7 +102,8 @@ function switchCooldown() {
 
 			clearInterval(countdownInterval);
 			remainingTime = 0;
-			finishAudio.play()
+			
+			playAudio(audio, "sound/finish.mp3")
 
 			startButton.disabled = false; // Enable the Start button when rounds end
 
@@ -122,7 +117,7 @@ function switchCooldown() {
 		remainingTime = totalTime1;
 		currentCooldown = 1;
 
-		startAudio.play()
+		playAudio(audio, "sound/start.mp3")
 
 		document.querySelector('.cueworkout').textContent = 'Workout!';
 
@@ -139,8 +134,9 @@ function updateCountdownDisplay() {
 	const formattedTime = `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 	document.querySelector('.countdown').textContent = formattedTime;
 
-	if (remainingTime === 0 && beepAudio.paused) {
-		beepAudio.play();
+	if (remainingTime === 0 && audio.paused) {
+		
+		playAudio(audio, "sound/beep.mp3")
 	}
 }
 
@@ -155,14 +151,20 @@ function stopCountdown() {
 	rounds = 0;
 	currentCooldown = 1;
 	document.querySelector('.countdown').textContent = '0:00:00';
-	document.querySelector('.cueworkout').textContent = '...'
-	document.querySelector('.cuerounds').textContent = '...'
+	document.querySelector('.cueworkout').textContent = 'Press START'
+	document.querySelector('.cuerounds').textContent = 'Press START'
+	
+	stopAudio(audio)
 
 	startButton.disabled = false
 }
 
-// Function to stop playing audio
+function playAudio(audioElement, audioFilePath) {
+    audioElement.src = audioFilePath;
+    audioElement.play();
+}
+
 function stopAudio(audioElement) {
-	audioElement.pause();
-	audioElement.currentTime = 0;
+    audioElement.pause();
+    audioElement.currentTime = 0;
 }
