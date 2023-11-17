@@ -9,7 +9,7 @@ const audio = new Audio(); // Single audio object
 
 function startCountdown() {
 	
-	playAudio(audio, "sound/beep.mp3")
+	playAudio(audio, "sound/get_ready.mp3")
 	
 	const startButton = document.querySelector('button[onclick="startCountdown()"]');
 	
@@ -24,6 +24,8 @@ function startCountdown() {
 	rounds = parseInt(document.getElementById("inputRounds").value);
 
 	document.querySelector('.cueworkout').textContent = 'Starting in 5 seconds!';
+	
+	document.querySelector('.cuerounds').textContent = 'Get Ready!';
 
 	if (!isNaN(time1) && !isNaN(time2) && !isNaN(rounds)) {
 		setTimeout(() => {
