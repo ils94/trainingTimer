@@ -12,10 +12,10 @@ function startCountdown() {
 	const time1 = parseInt(document.getElementById("inputTime1").value);
 	const time2 = parseInt(document.getElementById("inputTime2").value);
 	rounds = parseInt(document.getElementById("inputRounds").value);
-	
+
 	if (!audioContext) {
-      audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    }
+		audioContext = new(window.AudioContext || window.webkitAudioContext)();
+	}
 
 	if (!isNaN(time1) && !isNaN(time2) && !isNaN(rounds)) {
 
@@ -74,13 +74,11 @@ function updateTimer() {
 	}
 
 	if (remainingTime <= 5 && remainingTime > 0) {
-
-		if (!audio.paused) {
-			audio.pause();
-			audio.currentTime = 0;
+		if (audioContext && !audioContext.paused) {
+			stopAudio();
 		}
 
-		loadAndPlayAudio("sound/count.mp3")
+		loadAndPlayAudio("sound/count.mp3");
 	}
 
 	if (remainingTime >= 0) {
@@ -171,17 +169,17 @@ function stopCountdown() {
 }
 
 function loadAndPlayAudio(audioFilePath) {
-  fetch(audioFilePath)
-    .then(response => response.arrayBuffer())
-    .then(buffer => {
-      audioContext.decodeAudioData(buffer, decodedData => {
-        let source = audioContext.createBufferSource();
-        source.buffer = decodedData;
-        source.connect(audioContext.destination);
-        source.start(0);
-      });
-    })
-    .catch(error => {
-      console.error('Error loading audio file:', error);
-    });
+	fetch(audioFilePath)
+		.then(response => response.arrayBuffer())
+		.then(buffer => {
+			audioContext.decodeAudioData(buffer, decodedData => {
+				let source = audioContext.createBufferSource();
+				source.buffer = decodedData;
+				source.connect(audioContext.destination);
+				source.start(0);
+			});
+		})
+		.catch(error => {
+			console.error('Error loading audio file:', error);
+		});
 }
