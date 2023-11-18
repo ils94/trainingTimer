@@ -74,9 +74,6 @@ function updateTimer() {
 	}
 
 	if (remainingTime <= 5 && remainingTime > 0) {
-		if (audioContext && !audioContext.paused) {
-			stopAudio();
-		}
 
 		loadAndPlayAudio("sound/count.mp3");
 	}
@@ -142,11 +139,6 @@ function updateCountdownDisplay() {
 
 	const formattedTime = `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 	document.querySelector('.countdown').textContent = formattedTime;
-
-	if (remainingTime === 0 && audio.paused) {
-
-		loadAndPlayAudio("sound/beep.mp3")
-	}
 }
 
 function stopCountdown() {
@@ -162,8 +154,6 @@ function stopCountdown() {
 	document.querySelector('.countdown').textContent = '0:00:00';
 	document.querySelector('.cueworkout').textContent = 'Press START'
 	document.querySelector('.cuerounds').textContent = 'Press START'
-
-	// stopAudio(audio)
 
 	startButton.disabled = false
 }
