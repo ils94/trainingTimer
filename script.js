@@ -22,6 +22,8 @@ let startingText = 'Starting in 5 seconds!';
 let getReadyText = 'Get Ready!';
 let pressStartText = 'Press START';
 
+let warningText = 'Please enter valid numbers for Times and Rounds.';
+
 function startCountdown() {
 
 	const time1 = parseInt(document.getElementById("inputTime1").value);
@@ -66,7 +68,7 @@ function startCountdown() {
 			document.querySelector('.cuerounds').textContent = roundsText + rounds;
 		}, 5000);
 	} else {
-		alert("Please enter valid numbers for times and rounds.");
+		alert(warningText);
 	}
 }
 
@@ -221,6 +223,8 @@ function changeLanguage() {
 		getReadyText = 'Get Ready!';
 		pressStartText = 'Press START';
 
+		warningText = 'Please enter valid numbers for Times and Rounds.';
+
 		document.querySelector('.cueworkout').textContent = pressStartText;
 		document.querySelector('.cuerounds').textContent = pressStartText;
 		document.querySelector('label[for="inputTime1"]').textContent = 'Activity Time:';
@@ -247,6 +251,8 @@ function changeLanguage() {
 		startingText = 'Começando em 5 segundos!';
 		getReadyText = 'Prepare-se!';
 		pressStartText = 'Pressione INICIAR';
+
+		warningText = 'Insira números válidos para os Tempos e Rodadas.';
 
 		document.querySelector('.cueworkout').textContent = pressStartText;
 		document.querySelector('.cuerounds').textContent = pressStartText;
