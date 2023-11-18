@@ -5,17 +5,21 @@ let remainingTime = 0;
 let rounds = 0;
 let currentCooldown = 1;
 
-const audio = new Audio(); // Single audio object
+let audioContext;
 
 function startCountdown() {
 
 	const time1 = parseInt(document.getElementById("inputTime1").value);
 	const time2 = parseInt(document.getElementById("inputTime2").value);
 	rounds = parseInt(document.getElementById("inputRounds").value);
+	
+	if (!audioContext) {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
 
 	if (!isNaN(time1) && !isNaN(time2) && !isNaN(rounds)) {
 
-		playAudio(audio, "sound/get_ready.mp3")
+		loadAndPlayAudio("sound/get_ready.mp3")
 
 		const startButton = document.querySelector('button[onclick="startCountdown()"]');
 
@@ -37,7 +41,7 @@ function startCountdown() {
 			currentCooldown = 1;
 			updateCountdownDisplay();
 			countdownInterval = setInterval(updateTimer, 1000);
-			playAudio(audio, "sound/start.mp3")
+			loadAndPlayAudio("sound/start.mp3")
 			stopButton.disabled = false
 			document.querySelector('.cueworkout').textContent = 'Workout!';
 			document.querySelector('.cuerounds').textContent = 'Rounds Remaining: ' + rounds;
@@ -66,7 +70,7 @@ function updateTimer() {
 	remainingTime--;
 
 	if (remainingTime === 10) {
-		playAudio(audio, "sound/10_seconds.mp3")
+		loadAndPlayAudio("sound/10_seconds.mp3")
 	}
 
 	if (remainingTime <= 5 && remainingTime > 0) {
@@ -76,7 +80,7 @@ function updateTimer() {
 			audio.currentTime = 0;
 		}
 
-		playAudio(audio, "sound/count.mp3")
+		loadAndPlayAudio("sound/count.mp3")
 	}
 
 	if (remainingTime >= 0) {
@@ -97,7 +101,7 @@ function switchCooldown() {
 			remainingTime = totalTime2;
 			currentCooldown = 2;
 
-			playAudio(audio, "sound/rest.mp3")
+			loadAndPlayAudio("sound/rest.mp3")
 
 			document.querySelector('.cueworkout').textContent = 'Rest!';
 
@@ -110,7 +114,7 @@ function switchCooldown() {
 			clearInterval(countdownInterval);
 			remainingTime = 0;
 
-			playAudio(audio, "sound/finish.mp3")
+			loadAndPlayAudio("sound/finish.mp3")
 
 			startButton.disabled = false; // Enable the Start button when rounds end
 
@@ -124,7 +128,7 @@ function switchCooldown() {
 		remainingTime = totalTime1;
 		currentCooldown = 1;
 
-		playAudio(audio, "sound/start.mp3")
+		loadAndPlayAudio("sound/start.mp3")
 
 		document.querySelector('.cueworkout').textContent = 'Workout!';
 
@@ -143,7 +147,7 @@ function updateCountdownDisplay() {
 
 	if (remainingTime === 0 && audio.paused) {
 
-		playAudio(audio, "sound/beep.mp3")
+		loadAndPlayAudio("sound/beep.mp3")
 	}
 }
 
@@ -161,17 +165,23 @@ function stopCountdown() {
 	document.querySelector('.cueworkout').textContent = 'Press START'
 	document.querySelector('.cuerounds').textContent = 'Press START'
 
-	stopAudio(audio)
+	// stopAudio(audio)
 
 	startButton.disabled = false
 }
 
-function playAudio(audioElement, audioFilePath) {
-	audioElement.src = audioFilePath;
-	audioElement.play();
-}
-
-function stopAudio(audioElement) {
-	audioElement.pause();
-	audioElement.currentTime = 0;
+function loadAndPlayAudio(audioFilePath) {
+  fetch(audioFilePath)
+    .then(response => response.arrayBuffer())
+    .then(buffer => {
+      audioContext.decodeAudioData(buffer, decodedData => {
+        let source = audioContext.createBufferSource();
+        source.buffer = decodedData;
+        source.connect(audioContext.destination);
+        source.start(0);
+      });
+    })
+    .catch(error => {
+      console.error('Error loading audio file:', error);
+    });
 }
