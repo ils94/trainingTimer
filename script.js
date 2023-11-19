@@ -22,7 +22,18 @@ let startingText = 'Starting in 5 seconds!';
 let getReadyText = 'Get Ready!';
 let pressStartText = 'Press START';
 
-let warningText = 'Please enter valid numbers for Times and Rounds.';
+let pauseText = 'PAUSE';
+let resumeText = 'RESUME';
+
+let startButtonText = 'START';
+let stopButtonText = 'STOP';
+
+let isPaused = false;
+let started = false;
+
+let startStopButton = document.querySelector('button[onclick="startStop()"]');
+let pauseResumeButton = document.querySelector('button[onclick="pauseResume()"]');
+let dropDownMenu = document.getElementById("language-select");
 
 function startCountdown() {
 
@@ -36,17 +47,15 @@ function startCountdown() {
 
 	if (!isNaN(time1) && !isNaN(time2) && !isNaN(rounds)) {
 
+		document.querySelectorAll('.button-container button')[0].textContent = stopButtonText;
+
+		started = true;
+
 		loadAndPlayAudio(getReadyAudio);
 
-		const startButton = document.querySelector('button[onclick="startCountdown()"]');
+		startStopButton.disabled = true;
 
-		const stopButton = document.querySelector('button[onclick="stopCountdown()"]');
-
-		const dropDownMenu = document.getElementById("language-select");
-
-		startButton.disabled = true;
-
-		stopButton.disabled = true;
+		pauseResumeButton.disabled = true;
 
 		dropDownMenu.disabled = true;
 
@@ -63,12 +72,13 @@ function startCountdown() {
 			updateCountdownDisplay();
 			countdownInterval = setInterval(updateTimer, 1000);
 			loadAndPlayAudio(startAudio)
-			stopButton.disabled = false
+			startStopButton.disabled = false
+			pauseResumeButton.disabled = false;
 			document.querySelector('.cueworkout').textContent = startText;
 			document.querySelector('.cuerounds').textContent = roundsText + rounds;
 		}, 5000);
 	} else {
-		alert(warningText);
+		alert("Please enter valid numbers for times and rounds.");
 	}
 }
 
@@ -108,10 +118,6 @@ function updateTimer() {
 
 function switchCooldown() {
 
-	const startButton = document.querySelector('button[onclick="startCountdown()"]');
-
-	const dropDownMenu = document.getElementById("language-select");
-
 	if (currentCooldown === 1) {
 
 		if (rounds > 1) {
@@ -134,9 +140,13 @@ function switchCooldown() {
 
 			loadAndPlayAudio(finishAudio);
 
-			startButton.disabled = false;
-
 			dropDownMenu.disabled = false;
+
+			started = false;
+			isPaused = false;
+
+			document.querySelectorAll('.button-container button')[0].textContent = startButtonText;
+			document.querySelectorAll('.button-container button')[1].textContent = pauseText;
 
 			document.querySelector('.cueworkout').textContent = finishText;
 			document.querySelector('.countdown').textContent = '00:00:00';
@@ -168,21 +178,23 @@ function updateCountdownDisplay() {
 
 function stopCountdown() {
 
-	const startButton = document.querySelector('button[onclick="startCountdown()"]');
-
-	const dropDownMenu = document.getElementById("language-select");
-
 	clearInterval(countdownInterval);
 	totalTime1 = 0;
 	totalTime2 = 0;
 	remainingTime = 0;
 	rounds = 0;
 	currentCooldown = 1;
+
+	isPaused = false;
+	started = false;
+
+	document.querySelectorAll('.button-container button')[1].textContent = pauseText;
+
 	document.querySelector('.countdown').textContent = '00:00:00';
 	document.querySelector('.cueworkout').textContent = pressStartText;
 	document.querySelector('.cuerounds').textContent = pressStartText;
 
-	startButton.disabled = false;
+	pauseResumeButton.disabled = true;
 
 	dropDownMenu.disabled = false;
 }
@@ -223,7 +235,11 @@ function changeLanguage() {
 		getReadyText = 'Get Ready!';
 		pressStartText = 'Press START';
 
-		warningText = 'Please enter valid numbers for Times and Rounds.';
+		pauseText = 'PAUSE';
+		resumeText = 'RESUME';
+
+		startButtonText = 'START';
+		stopButtonText = 'STOP';
 
 		document.querySelector('.cueworkout').textContent = pressStartText;
 		document.querySelector('.cuerounds').textContent = pressStartText;
@@ -234,7 +250,7 @@ function changeLanguage() {
 		document.getElementById("inputTime2").placeholder = 'in seconds';
 		document.getElementById("inputRounds").placeholder = '';
 		document.querySelectorAll('.button-container button')[0].textContent = 'START';
-		document.querySelectorAll('.button-container button')[1].textContent = 'STOP';
+		document.querySelectorAll('.button-container button')[1].textContent = 'PAUSE';
 
 	} else if (selectedValue === "pt") {
 		startAudio = "sound/start_pt.mp3";
@@ -252,7 +268,11 @@ function changeLanguage() {
 		getReadyText = 'Prepare-se!';
 		pressStartText = 'Pressione INICIAR';
 
-		warningText = 'Insira números válidos para os Tempos e Rodadas.';
+		pauseText = 'PAUSAR';
+		resumeText = 'RESUMIR';
+
+		startButtonText = 'INICIAR';
+		stopButtonText = 'PARAR';
 
 		document.querySelector('.cueworkout').textContent = pressStartText;
 		document.querySelector('.cuerounds').textContent = pressStartText;
@@ -263,7 +283,7 @@ function changeLanguage() {
 		document.getElementById("inputTime2").placeholder = 'em segundos';
 		document.getElementById("inputRounds").placeholder = '';
 		document.querySelectorAll('.button-container button')[0].textContent = 'INICIAR';
-		document.querySelectorAll('.button-container button')[1].textContent = 'PARAR';
+		document.querySelectorAll('.button-container button')[1].textContent = 'PAUSAR';
 	}
 }
 
@@ -279,3 +299,48 @@ document.addEventListener("DOMContentLoaded", function() {
 	const select = document.getElementById("language-select");
 	select.value = "en";
 });
+
+function startStop() {
+
+	if (started) {
+
+		started = false;
+
+		document.querySelectorAll('.button-container button')[0].textContent = startButtonText;
+
+		stopCountdown();
+	} else {
+
+
+		startCountdown();
+
+	}
+
+}
+
+function pauseResume() {
+
+	if (isPaused) {
+
+		isPaused = false;
+
+		remainingTime = pausedTime;
+		currentCooldown = pausedCooldown;
+
+		updateCountdownDisplay();
+		countdownInterval = setInterval(updateTimer, 1000);
+
+		document.querySelectorAll('.button-container button')[1].textContent = pauseText;
+
+	} else {
+
+		isPaused = true;
+
+		document.querySelectorAll('.button-container button')[1].textContent = resumeText;
+
+		pausedTime = remainingTime;
+		pausedCooldown = currentCooldown;
+
+		clearInterval(countdownInterval);
+	}
+}
