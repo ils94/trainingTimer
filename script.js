@@ -147,6 +147,8 @@ function switchCooldown() {
 
 			document.querySelectorAll('.button-container button')[0].textContent = startButtonText;
 			document.querySelectorAll('.button-container button')[1].textContent = pauseText;
+			
+			pauseResumeButton.disabled = true;
 
 			document.querySelector('.cueworkout').textContent = finishText;
 			document.querySelector('.countdown').textContent = '00:00:00';
