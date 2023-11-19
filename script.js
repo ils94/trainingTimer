@@ -23,6 +23,7 @@ let startingText = 'Starting in 5 seconds!';
 let getReadyText = 'Get Ready!';
 let pressStartText = 'Press START';
 let breakTimeText = 'Break Time!';
+let lockButtonsText = 'Lock Buttons';
 
 let pauseText = 'PAUSE';
 let resumeText = 'RESUME';
@@ -35,9 +36,12 @@ let started = false;
 
 let isBreak = false;
 
+let isButtonsLocked = false;
+
 let startStopButton = document.querySelector('button[onclick="startStop()"]');
 let pauseResumeButton = document.querySelector('button[onclick="pauseResume()"]');
 let dropDownMenu = document.getElementById("language-select");
+let lockButtons = document.getElementById("switchToggle");
 
 let input1 = document.getElementById("inputTime1");
 let input2 = document.getElementById("inputTime2");
@@ -73,6 +77,7 @@ function startCountdown() {
 		input2.disabled = true;
 		input3.disabled = true;
 		inputRound.disabled = true;
+		lockButtons.disabled = true;
 
 		document.querySelector('.cueworkout').textContent = startingText;
 
@@ -87,8 +92,19 @@ function startCountdown() {
 			updateCountdownDisplay();
 			countdownInterval = setInterval(updateTimer, 1000);
 			loadAndPlayAudio(startAudio)
-			startStopButton.disabled = false
-			pauseResumeButton.disabled = false;
+
+			if (isButtonsLocked) {
+
+				startStopButton.disabled = true
+				pauseResumeButton.disabled = true;
+			} else {
+
+				startStopButton.disabled = false
+				pauseResumeButton.disabled = false;
+			}
+
+			lockButtons.disabled = false;
+
 			document.querySelector('.cueworkout').textContent = startText;
 			document.querySelector('.cuerounds').textContent = roundsText + rounds;
 		}, 5000);
@@ -200,6 +216,7 @@ function switchCooldown() {
 				input2.disabled = false;
 				input3.disabled = false;
 				inputRound.disabled = false;
+				lockButtons.disabled = true;
 
 				document.querySelector('.cueworkout').textContent = finishText;
 				document.querySelector('.countdown').textContent = '00:00:00';
@@ -254,6 +271,7 @@ function stopCountdown() {
 	input2.disabled = false;
 	input3.disabled = false;
 	inputRound.disabled = false;
+	lockButtons.disabled = true;
 
 	dropDownMenu.disabled = false;
 }
@@ -302,6 +320,8 @@ function changeLanguage() {
 		startButtonText = 'START';
 		stopButtonText = 'STOP';
 
+		lockButtonsText = 'Lock Buttons';
+
 		document.querySelector('.cueworkout').textContent = pressStartText;
 		document.querySelector('.cuerounds').textContent = pressStartText;
 		document.querySelector('label[for="inputTime1"]').textContent = 'Activity Time:';
@@ -313,6 +333,8 @@ function changeLanguage() {
 		document.getElementById("inputTime3").placeholder = 'in seconds';
 		document.querySelectorAll('.button-container button')[0].textContent = 'START';
 		document.querySelectorAll('.button-container button')[1].textContent = 'PAUSE';
+
+		document.querySelector('label[for="switchToggle"]').textContent = lockButtonsText;
 
 	} else if (selectedValue === "pt") {
 		startAudio = "sound/start_pt.mp3";
@@ -338,6 +360,8 @@ function changeLanguage() {
 		startButtonText = 'INICIAR';
 		stopButtonText = 'PARAR';
 
+		lockButtonsText = 'Travar Botões';
+
 		document.querySelector('.cueworkout').textContent = pressStartText;
 		document.querySelector('.cuerounds').textContent = pressStartText;
 		document.querySelector('label[for="inputTime1"]').textContent = 'Tempo de Atividade:';
@@ -349,6 +373,8 @@ function changeLanguage() {
 		document.getElementById("inputTime3").placeholder = 'em segundos';
 		document.querySelectorAll('.button-container button')[0].textContent = 'INICIAR';
 		document.querySelectorAll('.button-container button')[1].textContent = 'PAUSAR';
+
+		document.querySelector('label[for="switchToggle"]').textContent = lockButtonsText;
 	}
 }
 
@@ -409,3 +435,32 @@ function pauseResume() {
 		clearInterval(countdownInterval);
 	}
 }
+
+function updateButtonStatus() {
+	const switchToggle = document.getElementById("switchToggle");
+	const startStopButton = document.querySelectorAll('.button-container button')[0];
+	const pauseResumeButton = document.querySelectorAll('.button-container button')[1];
+
+	if (switchToggle.checked) {
+		startStopButton.disabled = true;
+		pauseResumeButton.disabled = true;
+
+		isButtonsLocked = true;
+
+	} else {
+		startStopButton.disabled = false;
+		pauseResumeButton.disabled = false;
+
+		isButtonsLocked = false;
+	}
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+	const switchToggle = document.getElementById("switchToggle");
+
+	switchToggle.addEventListener("change", () => {
+		updateButtonStatus();
+	});
+
+	updateButtonStatus();
+});
