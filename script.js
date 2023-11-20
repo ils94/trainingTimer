@@ -31,6 +31,8 @@ let resumeText = 'RESUME';
 let startButtonText = 'START';
 let stopButtonText = 'STOP';
 
+let stopMessage = 'Stop the Timer?';
+
 let isPaused = false;
 let started = false;
 
@@ -322,6 +324,8 @@ function changeLanguage() {
 
 		lockButtonsText = 'Lock Buttons';
 
+		stopMessage = 'Stop the Timer?';
+
 		document.querySelector('.cueworkout').textContent = pressStartText;
 		document.querySelector('.cuerounds').textContent = pressStartText;
 		document.querySelector('label[for="inputTime1"]').textContent = 'Activity Time:';
@@ -362,6 +366,8 @@ function changeLanguage() {
 
 		lockButtonsText = 'Travar Botões';
 
+		stopMessage = 'Para o Cronômetros?';
+
 		document.querySelector('.cueworkout').textContent = pressStartText;
 		document.querySelector('.cuerounds').textContent = pressStartText;
 		document.querySelector('label[for="inputTime1"]').textContent = 'Tempo de Atividade:';
@@ -395,11 +401,15 @@ function startStop() {
 
 	if (started) {
 
-		started = false;
+		if (window.confirm(stopMessage)) {
 
-		document.querySelectorAll('.button-container button')[0].textContent = startButtonText;
+			started = false;
 
-		stopCountdown();
+			document.querySelectorAll('.button-container button')[0].textContent = startButtonText;
+
+			stopCountdown();
+
+		}
 	} else {
 
 
