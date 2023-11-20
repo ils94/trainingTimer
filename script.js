@@ -135,8 +135,6 @@ document.getElementById("inputRounds").addEventListener("input", function(event)
 function updateTimer() {
 	remainingTime--;
 
-	audioContext.resume();
-
 	if (remainingTime === 10) {
 		loadAndPlayAudio(tenSecondsAudio);
 	}
@@ -282,6 +280,9 @@ function stopCountdown() {
 }
 
 function loadAndPlayAudio(audioFilePath) {
+
+	audioContext.resume();
+	
 	fetch(audioFilePath)
 		.then(response => response.arrayBuffer())
 		.then(buffer => {
