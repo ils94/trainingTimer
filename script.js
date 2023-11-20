@@ -58,11 +58,11 @@ function startCountdown() {
 	const time2 = parseInt(document.getElementById("inputTime2").value);
 	rounds = parseInt(document.getElementById("inputRounds").value);
 
-	if (!audioContext) {
-		audioContext = new(window.AudioContext || window.webkitAudioContext)();
-	}
-
 	if (!isNaN(time1) && !isNaN(time2) && !isNaN(rounds)) {
+
+		if (!audioContext) {
+			audioContext = new(window.AudioContext || window.webkitAudioContext)();
+		}
 
 		document.querySelectorAll('.button-container button')[0].textContent = stopButtonText;
 
@@ -370,7 +370,7 @@ function changeLanguage() {
 
 		stopMessage = 'Para o Cronômetros?';
 		alertText = 'Insira números válidos para os tempos e rodadas.';
-		
+
 		document.querySelector('.cueworkout').textContent = pressStartText;
 		document.querySelector('.cuerounds').textContent = pressStartText;
 		document.querySelector('label[for="inputTime1"]').textContent = 'Tempo de Atividade:';
