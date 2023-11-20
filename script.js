@@ -64,8 +64,6 @@ function startCountdown() {
 			audioContext = new(window.AudioContext || window.webkitAudioContext)();
 		}
 
-		audioContext.resume();
-
 		document.querySelectorAll('.button-container button')[0].textContent = stopButtonText;
 
 		started = true;
@@ -136,6 +134,8 @@ document.getElementById("inputRounds").addEventListener("input", function(event)
 
 function updateTimer() {
 	remainingTime--;
+
+	audioContext.resume();
 
 	if (remainingTime === 10) {
 		loadAndPlayAudio(tenSecondsAudio);
