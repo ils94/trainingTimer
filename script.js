@@ -326,7 +326,7 @@ function changeLanguage() {
 		lockButtonsText = 'Lock Buttons';
 
 		stopMessage = 'Stop the Timer?';
-  alertText = 'Please enter valid numbers for times and rounds.';
+		alertText = 'Please enter valid numbers for times and rounds.';
 
 		document.querySelector('.cueworkout').textContent = pressStartText;
 		document.querySelector('.cuerounds').textContent = pressStartText;
@@ -369,7 +369,8 @@ function changeLanguage() {
 		lockButtonsText = 'Travar Botões';
 
 		stopMessage = 'Para o Cronômetros?';
-  alertText = 'Insira números válidos para os tempos e rodadas.';
+		alertText = 'Insira números válidos para os tempos e rodadas.';
+		
 		document.querySelector('.cueworkout').textContent = pressStartText;
 		document.querySelector('.cuerounds').textContent = pressStartText;
 		document.querySelector('label[for="inputTime1"]').textContent = 'Tempo de Atividade:';
