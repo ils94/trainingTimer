@@ -24,6 +24,7 @@ let getReadyText = 'Get Ready!';
 let pressStartText = 'Press START';
 let breakTimeText = 'Break Time!';
 let lockButtonsText = 'Lock Buttons';
+let alertText = 'Please enter valid numbers for times and rounds.';
 
 let pauseText = 'PAUSE';
 let resumeText = 'RESUME';
@@ -111,7 +112,7 @@ function startCountdown() {
 			document.querySelector('.cuerounds').textContent = roundsText + rounds;
 		}, 5000);
 	} else {
-		alert("Please enter valid numbers for times and rounds.");
+		alert(alertText);
 	}
 }
 
@@ -325,6 +326,7 @@ function changeLanguage() {
 		lockButtonsText = 'Lock Buttons';
 
 		stopMessage = 'Stop the Timer?';
+  alertText = 'Please enter valid numbers for times and rounds.';
 
 		document.querySelector('.cueworkout').textContent = pressStartText;
 		document.querySelector('.cuerounds').textContent = pressStartText;
@@ -367,7 +369,7 @@ function changeLanguage() {
 		lockButtonsText = 'Travar Botões';
 
 		stopMessage = 'Para o Cronômetros?';
-
+  alertText = 'Insira números válidos para os tempos e rodadas.';
 		document.querySelector('.cueworkout').textContent = pressStartText;
 		document.querySelector('.cuerounds').textContent = pressStartText;
 		document.querySelector('label[for="inputTime1"]').textContent = 'Tempo de Atividade:';
