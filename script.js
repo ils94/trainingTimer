@@ -64,6 +64,8 @@ function startCountdown() {
 			audioContext = new(window.AudioContext || window.webkitAudioContext)();
 		}
 
+		audioContext.resume();
+
 		document.querySelectorAll('.button-container button')[0].textContent = stopButtonText;
 
 		started = true;
