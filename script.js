@@ -10,6 +10,8 @@ let audioContext;
 let startAudio = "sound/start_en.mp3";
 let restAudio = "sound/rest_en.mp3";
 let finishAudio = "sound/finish_en.mp3";
+let oneMinuteAudio = "sound/one_minute_en.mp3";
+let thirtySecondsAudio = "sound/30_seconds_en.mp3";
 let tenSecondsAudio = "sound/10_seconds_en.mp3";
 let getReadyAudio = "sound/getReady_en.mp3";
 let breakTimeAudio = "sound/break_en.mp3";
@@ -134,6 +136,14 @@ document.getElementById("inputRounds").addEventListener("input", function(event)
 
 function updateTimer() {
 	remainingTime--;
+
+	if (remainingTime === 59) {
+		loadAndPlayAudio(oneMinuteAudio);
+	}
+
+	if (remainingTime === 30) {
+		loadAndPlayAudio(thirtySecondsAudio);
+	}
 
 	if (remainingTime === 10) {
 		loadAndPlayAudio(tenSecondsAudio);
@@ -306,6 +316,8 @@ function changeLanguage() {
 		startAudio = "sound/start_en.mp3";
 		restAudio = "sound/rest_en.mp3";
 		finishAudio = "sound/finish_en.mp3";
+		oneMinuteAudio = "sound/one_minute_en.mp3";
+		thirtySecondsAudio = "sound/30_seconds_en.mp3";
 		tenSecondsAudio = "sound/10_seconds_en.mp3";
 		getReadyAudio = "sound/getReady_en.mp3";
 		breakTimeAudio = "sound/break_en.mp3";
@@ -349,6 +361,8 @@ function changeLanguage() {
 		startAudio = "sound/start_pt.mp3";
 		restAudio = "sound/rest_pt.mp3";
 		finishAudio = "sound/finish_pt.mp3";
+		oneMinuteAudio = "sound/one_minute_pt.mp3";
+		thirtySecondsAudio = "sound/30_seconds_pt.mp3";
 		tenSecondsAudio = "sound/10_seconds_pt.mp3";
 		getReadyAudio = "sound/getReady_pt.mp3";
 		breakTimeAudio = "sound/break_pt.mp3";
